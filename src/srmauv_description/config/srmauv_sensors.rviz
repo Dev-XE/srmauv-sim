@@ -1,0 +1,92 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+    Property Tree Widget:
+      Expanded: ~
+  - Class: rviz_common/Views
+    Name: Views
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Name: Grid
+      Enabled: true
+      Color: 160; 160; 164
+      Plane Cell Count: 20
+      Value: true
+    - Class: rviz_default_plugins/TF
+      Name: TF
+      Enabled: true
+      Show Names: true
+      Marker Scale: 0.5
+      Value: true
+    - Class: rviz_default_plugins/RobotModel
+      Name: RobotModel
+      Enabled: true
+      Description Source: Topic
+      Description Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Reliability Policy: Reliable
+        Value: /robot_description
+      Value: true
+    - Class: rviz_default_plugins/LaserScan
+      Name: Ping360 Sonar
+      Enabled: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Reliability Policy: Best Effort
+        Value: /srmauv/ping360/scan
+      Style: Spheres
+      Size (m): 0.06
+      Color: 255; 255; 0
+      Color Transformer: FlatColor
+      Value: true
+    - Class: rviz_default_plugins/Image
+      Name: Front Camera
+      Enabled: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Reliability Policy: Best Effort
+        Value: /srmauv/front_camera/image_raw
+      Value: true
+    - Class: rviz_default_plugins/Image
+      Name: Bottom Camera
+      Enabled: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Reliability Policy: Best Effort
+        Value: /srmauv/bottom_camera/image_raw
+      Value: true
+  Global Options:
+    Background Color: 48; 48; 48
+    Fixed Frame: base_link
+    Frame Rate: 30
+  Tools:
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+    - Class: rviz_default_plugins/FocusCamera
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Name: Current View
+      Distance: 4
+      Focal Point:
+        X: 0
+        Y: 0
+        Z: 0
+      Pitch: 0.4
+      Yaw: 0.8
+    Saved: ~
+Window Geometry:
+  Height: 900
+  Width: 1400
+  Front Camera:
+    collapsed: false
+  Bottom Camera:
+    collapsed: false
+  Displays:
+    collapsed: false

@@ -1,0 +1,208 @@
+<?xml version="1.0"?>
+<robot name="srmauv" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- ============================================================
+       Geometry derived from "AUV Vehicle full assembly v4.step":
+         bounding box ~ 0.587 x 0.601 x 0.435 m
+         center offset ~ (0, -0.156, -0.117) m from the STEP origin
+       STL/DAE in millimetres -> Gazebo metres, so mesh_scale = 0.001.
+       ============================================================ -->
+  <xacro:property name="mesh_scale" value="1.0 1.0 1.0"/>
+  <xacro:property name="mesh_rpy"   value="1.5708 0 0"/>
+  <xacro:property name="mass"       value="20.0"/>     <!-- kg, approx -->
+
+  <!-- Bounding-box dimensions (m) used for the simplified collision. -->
+  <xacro:property name="bx" value="0.587"/>
+  <xacro:property name="by" value="0.601"/>
+  <xacro:property name="bz" value="0.435"/>
+  <!-- Center of the bounding box, relative to the STEP origin (m). -->
+  <xacro:property name="cx" value="0.0"/>
+  <xacro:property name="cy" value="-0.156"/>
+  <xacro:property name="cz" value="-0.117"/>
+
+  <!-- Hydrostatics. Neutral buoyancy: displaced volume = mass / fluid_density.
+       Center of volume is placed ABOVE the center of mass so buoyancy + weight
+       form a passive righting couple (keeps the vehicle upright). -->
+  <xacro:property name="fluid_density" value="1000.0"/>           <!-- fresh water -->
+  <xacro:property name="volume" value="${mass / fluid_density}"/> <!-- = 0.020 m^3 -->
+  <xacro:property name="cov_z" value="0.0"/>                       <!-- ~0.117 m above CoM -->
+
+  <link name="base_link">
+    <visual>
+  	<origin xyz="0 0 0" rpy="${mesh_rpy}"/>
+  	<geometry>
+    		<mesh filename="package://srmauv_description/meshes/srmauv_colored.obj" scale="${mesh_scale}"/>
+  	</geometry>
+    </visual>
+
+    <!-- Simple box collision (a 1M-facet mesh collision would cripple physics). -->
+    <collision>
+      <origin xyz="${cx} ${cy} ${cz}" rpy="0 0 0"/>
+      <geometry>
+        <box size="${bx} ${by} ${bz}"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <origin xyz="${cx} ${cy} ${cz}" rpy="0 0 0"/>
+      <mass value="${mass}"/>
+      <inertia
+        ixx="${(1.0/12.0)*mass*(by*by + bz*bz)}" ixy="0.0" ixz="0.0"
+        iyy="${(1.0/12.0)*mass*(bx*bx + bz*bz)}" iyz="0.0"
+        izz="${(1.0/12.0)*mass*(bx*bx + by*by)}"/>
+    </inertial>
+  </link>
+
+  <!-- Light velocity decay as a first-pass stand-in for hydrodynamic drag.
+       Phase 2 replaces this with proper linear+quadratic damping in the
+       thruster control node. -->
+  <gazebo reference="base_link">
+    <dampingFactor>0.003</dampingFactor>
+  </gazebo>
+
+  <!-- Buoyancy (Gazebo Classic built-in). Applies an upward force
+       rho * g * volume at the center of volume on every step. -->
+  <gazebo>
+    <plugin name="buoyancy" filename="libBuoyancyPlugin.so">
+      <fluid_density>${fluid_density}</fluid_density>
+      <link name="base_link">
+        <center_of_volume>${cx} ${cy} ${cov_z}</center_of_volume>
+        <volume>${volume}</volume>
+      </link>
+    </plugin>
+  </gazebo>
+
+  <!-- Thruster effort: net body wrench from the 8-thruster controller is
+       applied to base_link in the LINK (body) frame. Topic: /srmauv/wrench -->
+  <gazebo>
+    <plugin name="thruster_force" filename="libgazebo_ros_force.so">
+      <ros>
+        <namespace>/srmauv</namespace>
+        <remapping>gazebo_ros_force:=wrench</remapping>
+      </ros>
+      <link_name>base_link</link_name>
+      <force_frame>link</force_frame>
+    </plugin>
+  </gazebo>
+
+  <!-- Ground-truth odometry (pose + twist) for monitoring / future control.
+       Topic: /srmauv/odom -->
+  <gazebo>
+    <plugin name="p3d_odom" filename="libgazebo_ros_p3d.so">
+      <ros>
+        <namespace>/srmauv</namespace>
+        <remapping>odom:=odom</remapping>
+      </ros>
+      <body_name>base_link</body_name>
+      <frame_name>world</frame_name>
+      <update_rate>50</update_rate>
+    </plugin>
+  </gazebo>
+
+  <!-- =====================================================================
+       SENSOR SUITE  (all publish under /srmauv/...; teammates subscribe)
+       ===================================================================== -->
+  <xacro:macro name="sensor_mount" params="name xyz rpy">
+    <link name="${name}">
+      <inertial>
+        <mass value="0.001"/>
+        <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+      </inertial>
+    </link>
+    <joint name="${name}_joint" type="fixed">
+      <parent link="base_link"/>
+      <child link="${name}"/>
+      <origin xyz="${xyz}" rpy="${rpy}"/>
+    </joint>
+    <!-- NOTE: no preserveFixedJoint, so the link lumps into base_link (the
+         buoyancy plugin then only sees base_link's volume). The sensor
+         relocates onto base_link with this offset, and robot_state_publisher
+         still publishes the base_link to ${name} TF for RViz. -->
+  </xacro:macro>
+
+  <xacro:sensor_mount name="imu_link"           xyz="0 -0.156 -0.117" rpy="0 0 0"/>
+  <xacro:sensor_mount name="front_camera_link"  xyz="0.29 -0.156 0.0"  rpy="0 0 0"/>
+  <xacro:sensor_mount name="bottom_camera_link" xyz="0.0 -0.156 -0.33" rpy="0 1.5708 0"/>
+  <xacro:sensor_mount name="ping360_link"       xyz="0.12 -0.156 0.15" rpy="0 0 0"/>
+
+  <!-- IMU (BNO055-like): orientation + angular velocity + linear acceleration -->
+  <gazebo reference="imu_link">
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>50</update_rate>
+      <imu>
+        <angular_velocity><x><noise type="gaussian"><mean>0</mean><stddev>0.002</stddev></noise></x>
+          <y><noise type="gaussian"><mean>0</mean><stddev>0.002</stddev></noise></y>
+          <z><noise type="gaussian"><mean>0</mean><stddev>0.002</stddev></noise></z></angular_velocity>
+        <linear_acceleration><x><noise type="gaussian"><mean>0</mean><stddev>0.017</stddev></noise></x>
+          <y><noise type="gaussian"><mean>0</mean><stddev>0.017</stddev></noise></y>
+          <z><noise type="gaussian"><mean>0</mean><stddev>0.017</stddev></noise></z></linear_acceleration>
+      </imu>
+      <plugin name="imu_plugin" filename="libgazebo_ros_imu_sensor.so">
+        <ros><namespace>/srmauv</namespace><remapping>~/out:=imu</remapping></ros>
+        <frame_name>imu_link</frame_name>
+        <initial_orientation_as_reference>false</initial_orientation_as_reference>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+  <!-- Front camera (forward-facing) -->
+  <gazebo reference="front_camera_link">
+    <sensor name="front_camera" type="camera">
+      <always_on>true</always_on>
+      <update_rate>15</update_rate>
+      <camera>
+        <horizontal_fov>1.396</horizontal_fov>
+        <image><width>640</width><height>480</height><format>R8G8B8</format></image>
+        <clip><near>0.05</near><far>30</far></clip>
+      </camera>
+      <plugin name="front_camera_plugin" filename="libgazebo_ros_camera.so">
+        <ros><namespace>/srmauv</namespace></ros>
+        <camera_name>front_camera</camera_name>
+        <frame_name>front_camera_link</frame_name>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+  <!-- Bottom camera (down-facing; link rotated so optical +X points -Z) -->
+  <gazebo reference="bottom_camera_link">
+    <sensor name="bottom_camera" type="camera">
+      <always_on>true</always_on>
+      <update_rate>15</update_rate>
+      <camera>
+        <horizontal_fov>1.396</horizontal_fov>
+        <image><width>640</width><height>480</height><format>R8G8B8</format></image>
+        <clip><near>0.05</near><far>30</far></clip>
+      </camera>
+      <plugin name="bottom_camera_plugin" filename="libgazebo_ros_camera.so">
+        <ros><namespace>/srmauv</namespace></ros>
+        <camera_name>bottom_camera</camera_name>
+        <frame_name>bottom_camera_link</frame_name>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+  <!-- Ping360 scanning sonar (approximated as a 360 deg horizontal ray scan;
+       Gazebo Classic has no acoustic sim, so this gives range-vs-bearing) -->
+  <gazebo reference="ping360_link">
+    <sensor name="ping360" type="ray">
+      <always_on>true</always_on>
+      <update_rate>10</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>400</samples><resolution>1</resolution>
+            <min_angle>-3.14159</min_angle><max_angle>3.14159</max_angle>
+          </horizontal>
+        </scan>
+        <range><min>0.4</min><max>15.0</max><resolution>0.02</resolution></range>
+      </ray>
+      <plugin name="ping360_plugin" filename="libgazebo_ros_ray_sensor.so">
+        <ros><namespace>/srmauv</namespace><remapping>~/out:=ping360/scan</remapping></ros>
+        <output_type>sensor_msgs/LaserScan</output_type>
+        <frame_name>ping360_link</frame_name>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+</robot>

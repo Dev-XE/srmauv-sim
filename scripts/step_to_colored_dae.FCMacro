@@ -1,0 +1,38 @@
+# FreeCAD GUI macro: STEP (with colors) -> colored COLLADA (.dae)
+# Must run under the FreeCAD *GUI* (ImportGui reads per-face colors; the
+# headless Import module drops them). Needs pycollada for the .dae export.
+#
+# Run (sanitized env, offscreen):
+#   env -i HOME=$HOME PATH=/usr/bin:/bin DISPLAY=$DISPLAY \
+#       QT_QPA_PLATFORM=offscreen freecad scripts/step_to_colored_dae.FCMacro
+import sys
+import FreeCAD as App
+
+STEP_IN = "/home/nayanika/Downloads/AUV Vehicle full assembly v4.step"
+DAE_OUT = "/home/nayanika/NIOT_srmauv/src/srmauv_description/meshes/srmauv_colored.dae"
+
+App.Console.PrintMessage("Importing STEP with colors via ImportGui...\n")
+import ImportGui
+doc = App.newDocument("conv")
+ImportGui.insert(STEP_IN, "conv")
+doc.recompute()
+
+objs = [o for o in doc.Objects if getattr(o, "Shape", None) is not None
+        and not o.Shape.isNull()]
+App.Console.PrintMessage("Shapes loaded: %d\n" % len(objs))
+
+# Quick color sanity check from the view objects.
+colored = 0
+for o in objs:
+    vo = getattr(o, "ViewObject", None)
+    if vo is not None and getattr(vo, "DiffuseColor", None):
+        colored += 1
+App.Console.PrintMessage("Objects carrying color: %d\n" % colored)
+
+App.Console.PrintMessage("Exporting COLLADA -> %s\n" % DAE_OUT)
+import importDAE
+importDAE.export(objs, DAE_OUT)
+App.Console.PrintMessage("DONE\n")
+
+import FreeCADGui
+FreeCADGui.getMainWindow().close()
