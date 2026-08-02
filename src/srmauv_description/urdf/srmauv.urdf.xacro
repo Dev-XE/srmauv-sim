@@ -29,7 +29,7 @@
 
   <link name="base_link">
     <visual>
-  	<origin xyz="0 0 0" rpy="${mesh_rpy}"/>
+  	<origin xyz="${-cx} ${-cy} ${-cz}" rpy="${mesh_rpy}"/>
   	<geometry>
     		<mesh filename="package://srmauv_description/meshes/srmauv_colored.obj" scale="${mesh_scale}"/>
   	</geometry>
@@ -37,14 +37,14 @@
 
     <!-- Simple box collision (a 1M-facet mesh collision would cripple physics). -->
     <collision>
-      <origin xyz="${cx} ${cy} ${cz}" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <box size="${bx} ${by} ${bz}"/>
       </geometry>
     </collision>
 
     <inertial>
-      <origin xyz="${cx} ${cy} ${cz}" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
       <mass value="${mass}"/>
       <inertia
         ixx="${(1.0/12.0)*mass*(by*by + bz*bz)}" ixy="0.0" ixz="0.0"
@@ -66,7 +66,7 @@
     <plugin name="buoyancy" filename="libBuoyancyPlugin.so">
       <fluid_density>${fluid_density}</fluid_density>
       <link name="base_link">
-        <center_of_volume>${cx} ${cy} ${cov_z}</center_of_volume>
+        <center_of_volume>0 0 ${cov_z - cz}</center_of_volume>
         <volume>${volume}</volume>
       </link>
     </plugin>
@@ -114,16 +114,15 @@
       <child link="${name}"/>
       <origin xyz="${xyz}" rpy="${rpy}"/>
     </joint>
-    <!-- NOTE: no preserveFixedJoint, so the link lumps into base_link (the
-         buoyancy plugin then only sees base_link's volume). The sensor
-         relocates onto base_link with this offset, and robot_state_publisher
-         still publishes the base_link to ${name} TF for RViz. -->
+    <gazebo reference="${name}">
+      <disableFixedJointLumping>true</disableFixedJointLumping>
+    </gazebo>
   </xacro:macro>
 
-  <xacro:sensor_mount name="imu_link"           xyz="0 -0.156 -0.117" rpy="0 0 0"/>
-  <xacro:sensor_mount name="front_camera_link"  xyz="0.29 -0.156 0.0"  rpy="0 0 0"/>
-  <xacro:sensor_mount name="bottom_camera_link" xyz="0.0 -0.156 -0.33" rpy="0 1.5708 0"/>
-  <xacro:sensor_mount name="ping360_link"       xyz="0.12 -0.156 0.15" rpy="0 0 0"/>
+  <xacro:sensor_mount name="imu_link"           xyz="0 0 0"           rpy="0 0 0"/>
+<xacro:sensor_mount name="front_camera_link"  xyz="-0.0012326240539550781 -0.08307254314422607 0.2378"  rpy="0 0 -1.5708"/>
+<xacro:sensor_mount name="bottom_camera_link" xyz="-0.006963587366044521 0.029413951560854912 -0.2174805998802185"  rpy="0 1.5708 0"/>
+<xacro:sensor_mount name="ping360_link"       xyz="0.12 0.0 0.267"  rpy="0 0 0"/>
 
   <!-- IMU (BNO055-like): orientation + angular velocity + linear acceleration -->
   <gazebo reference="imu_link">

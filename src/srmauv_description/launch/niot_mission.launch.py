@@ -37,11 +37,13 @@ def generate_launch_description():
         output='screen', parameters=[{'robot_description': robot_desc}],
     )
 
-    # Spawn the AUV at the start buoy, facing down the course (+X).
+    # Spawn the AUV at the start buoy, facing down the course (+X), rotated
+    # 90 degrees left (about +Z, per REP103) so the torpedo guns face the
+    # intended heading.
     spawn = Node(
         package='gazebo_ros', executable='spawn_entity.py',
         arguments=['-topic', 'robot_description', '-entity', 'srmauv',
-                   '-x', '-11.0', '-y', '0.0', '-z', '1.2'],
+                   '-x', '-11.0', '-y', '0.0', '-z', '1.2', '-Y', '1.5708'],
         output='screen',
     )
 
