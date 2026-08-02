@@ -202,7 +202,7 @@
 <model name='octagon_right'><static>true</static><pose>8.01059292492727 -5.5 0 0 0 0.0</pose><link name='link'><visual name='tether_v'><pose>0 0 1.25 0 0 0</pose><transparency>0.0</transparency><geometry><cylinder><radius>0.02</radius><length>2.5</length></cylinder></geometry><material><ambient>0.55 0.55 0.55 1.0</ambient><diffuse>0.55 0.55 0.55 1.0</diffuse><specular>0.1 0.1 0.1 1</specular><emissive>0.066 0.066 0.066 1</emissive></material></visual><visual name='candy_v'><pose>0 0 2.5 0 0 0</pose><transparency>0.0</transparency><geometry><cylinder><radius>0.1</radius><length>0.02</length></cylinder></geometry><material><ambient>0.2 0.7 0.7 1.0</ambient><diffuse>0.2 0.7 0.7 1.0</diffuse><specular>0.1 0.1 0.1 1</specular><emissive>0.024 0.08399999999999999 0.08399999999999999 1</emissive></material></visual><collision name='candy_c'><pose>0 0 2.5 0 0 0</pose><geometry><cylinder><radius>0.1</radius><length>0.02</length></cylinder></geometry></collision><visual name='seg0_v'><pose>0.9545941546018393 0.9545941546018393 2.5 0 1.5708 2.356194490192345</pose><transparency>0.0</transparency><geometry><cylinder><radius>0.0302</radius><length>1.1183766184073567</length></cylinder></geometry><material><ambient>0.1 0.35 0.8 1.0</ambient><diffuse>0.1 0.35 0.8 1.0</diffuse><specular>0.1 0.1 0.1 1</specular><emissive>0.012 0.041999999999999996 0.096 1</emissive></material></visual><collision name='seg0_c'><pose>0.9545941546018393 0.9545941546018393 2.5 0 1.5708 2.356194490192345</pose><geometry><cylinder><radius>0.0302</radius><length>1.1183766184073567</length></cylinder></geometry></collision><visual name='seg1_v'><pose>1.1102230246251565e-16 1.35 2.5 0 1.5708 3.141592653589793</pose><transparency>0.0</transparency><geometry><cylinder><radius>0.0302</radius><length>1.1183766184073567</length></cylinder></geometry><material><ambient>0.1 0.35 0.8 1.0</ambient><diffuse>0.1 0.35 0.8 1.0</diffuse><specular>0.1 0.1 0.1 1</specular><emissive>0.012 0.041999999999999996 0.096 1</emissive></material></visual><collision name='seg1_c'><pose>1.1102230246251565e-16 1.35 2.5 0 1.5708 3.141592653589793</pose><geometry><cylinder><radius>0.0302</radius><length>1.1183766184073567</length></cylinder></geometry></collision><visual name='seg2_v'><pose>-0.9545941546018392 0.9545941546018393 2.5 0 1.5708 -2.3561944901923453</pose><transparency>0.0</transparency><geometry><cylinder><radius>0.0302</radius><length>1.1183766184073567</length></cylinder></geometry><material><ambient>0.1 0.35 0.8 1.0</ambient><diffuse>0.1 0.35 0.8 1.0</diffuse><specular>0.1 0.1 0.1 1</specular><emissive>0.012 0.041999999999999996 0.096 1</emissive></material></visual><collision name='seg2_c'><pose>-0.9545941546018392 0.9545941546018393 2.5 0 1.5708 -2.3561944901923453</pose><geometry><cylinder><radius>0.0302</radius><length>1.1183766184073567</length></cylinder></geometry></collision><visual name='seg3_v'><pose>-1.35 1.6653345369377348e-16 2.5 0 1.5708 -1.5707963267948968</pose><transparency>0.0</transparency><geometry><cylinder><radius>0.0302</radius><length>1.1183766184073567</length></cylinder></geometry><material><ambient>0.1 0.35 0.8 1.0</ambient><diffuse>0.1 0.35 0.8 1.0</diffuse><specular>0.1 0.1 0.1 1</specular><emissive>0.012 0.041999999999999996 0.096 1</emissive></material></visual><collision name='seg3_c'><pose>-1.35 1.6653345369377348e-16 2.5 0 1.5708 -1.5707963267948968</pose><geometry><cylinder><radius>0.0302</radius><length>1.1183766184073567</length></cylinder></geometry></collision><visual name='seg4_v'><pose>-0.9545941546018392 -0.9545941546018393 2.5 0 1.5708 -0.7853981633974482</pose><transparency>0.0</transparency><geometry><cylinder><radius>0.0302</radius><length>1.1183766184073567</length></cylinder></geometry><material><ambient>0.1 0.35 0.8 1.0</ambient><diffuse>0.1 0.35 0.8 1.0</diffuse><specular>0.1 0.1 0.1 1</specular><emissive>0.012 0.041999999999999996 0.096 1</emissive></material></visual><collision name='seg4_c'><pose>-0.9545941546018392 -0.9545941546018393 2.5 0 1.5708 -0.7853981633974482</pose><geometry><cylinder><radius>0.0302</radius><length>1.1183766184073567</length></cylinder></geometry></collision><visual name='seg5_v'><pose>3.3306690738754696e-16 -1.35 2.5 0 1.5708 3.9708377530502687e-16</pose><transparency>0.0</transparency><geometry><cylinder><radius>0.0302</radius><length>1.1183766184073567</length></cylinder></geometry><material><ambient>0.1 0.35 0.8 1.0</ambient><diffuse>0.1 0.35 0.8 1.0</diffuse><specular>0.1 0.1 0.1 1</specular><emissive>0.012 0.041999999999999996 0.096 1</emissive></material></visual><collision name='seg5_c'><pose>3.3306690738754696e-16 -1.35 2.5 0 1.5708 3.9708377530502687e-16</pose><geometry><cylinder><radius>0.0302</radius><length>1.1183766184073567</length></cylinder></geometry></collision><visual name='seg6_v'><pose>0.9545941546018395 -0.9545941546018389 2.5 0 1.5708 0.7853981633974485</pose><transparency>0.0</transparency><geometry><cylinder><radius>0.0302</radius><length>1.1183766184073567</length></cylinder></geometry><material><ambient>0.1 0.35 0.8 1.0</ambient><diffuse>0.1 0.35 0.8 1.0</diffuse><specular>0.1 0.1 0.1 1</specular><emissive>0.012 0.041999999999999996 0.096 1</emissive></material></visual><collision name='seg6_c'><pose>0.9545941546018395 -0.9545941546018389 2.5 0 1.5708 0.7853981633974485</pose><geometry><cylinder><radius>0.0302</radius><length>1.1183766184073567</length></cylinder></geometry></collision><visual name='seg7_v'><pose>1.35 2.7755575615628914e-16 2.5 0 1.5708 1.5707963267948968</pose><transparency>0.0</transparency><geometry><cylinder><radius>0.0302</radius><length>1.1183766184073567</length></cylinder></geometry><material><ambient>0.1 0.35 0.8 1.0</ambient><diffuse>0.1 0.35 0.8 1.0</diffuse><specular>0.1 0.1 0.1 1</specular><emissive>0.012 0.041999999999999996 0.096 1</emissive></material></visual><collision name='seg7_c'><pose>1.35 2.7755575615628914e-16 2.5 0 1.5708 1.5707963267948968</pose><geometry><cylinder><radius>0.0302</radius><length>1.1183766184073567</length></cylinder></geometry></collision><visual name='fl0_v'><pose>1.35 0.5591883092036783 2.5 0 0 0</pose><transparency>0.0</transparency><geometry><sphere><radius>0.12</radius></sphere></geometry><material><ambient>0.95 0.85 0.1 1.0</ambient><diffuse>0.95 0.85 0.1 1.0</diffuse><specular>0.1 0.1 0.1 1</specular><emissive>0.11399999999999999 0.102 0.012 1</emissive></material></visual><collision name='fl0_c'><pose>1.35 0.5591883092036783 2.5 0 0 0</pose><geometry><sphere><radius>0.12</radius></sphere></geometry></collision><visual name='fl2_v'><pose>-0.5591883092036782 1.35 2.5 0 0 0</pose><transparency>0.0</transparency><geometry><sphere><radius>0.12</radius></sphere></geometry><material><ambient>0.95 0.85 0.1 1.0</ambient><diffuse>0.95 0.85 0.1 1.0</diffuse><specular>0.1 0.1 0.1 1</specular><emissive>0.11399999999999999 0.102 0.012 1</emissive></material></visual><collision name='fl2_c'><pose>-0.5591883092036782 1.35 2.5 0 0 0</pose><geometry><sphere><radius>0.12</radius></sphere></geometry></collision><visual name='fl4_v'><pose>-1.3500000000000003 -0.5591883092036782 2.5 0 0 0</pose><transparency>0.0</transparency><geometry><sphere><radius>0.12</radius></sphere></geometry><material><ambient>0.95 0.85 0.1 1.0</ambient><diffuse>0.95 0.85 0.1 1.0</diffuse><specular>0.1 0.1 0.1 1</specular><emissive>0.11399999999999999 0.102 0.012 1</emissive></material></visual><collision name='fl4_c'><pose>-1.3500000000000003 -0.5591883092036782 2.5 0 0 0</pose><geometry><sphere><radius>0.12</radius></sphere></geometry></collision><visual name='fl6_v'><pose>0.5591883092036787 -1.3499999999999999 2.5 0 0 0</pose><transparency>0.0</transparency><geometry><sphere><radius>0.12</radius></sphere></geometry><material><ambient>0.95 0.85 0.1 1.0</ambient><diffuse>0.95 0.85 0.1 1.0</diffuse><specular>0.1 0.1 0.1 1</specular><emissive>0.11399999999999999 0.102 0.012 1</emissive></material></visual><collision name='fl6_c'><pose>0.5591883092036787 -1.3499999999999999 2.5 0 0 0</pose><geometry><sphere><radius>0.12</radius></sphere></geometry></collision></link></model>
 <model name='path_8'>
   <static>true</static>
-  <pose>5.5 4.0 0 0 0 0.0</pose>
+  <pose>5.5 4.0 0 0 0 0.3</pose>
   <link name='link'>
     <visual name='plate_v'>
       <pose>0 0 0.5 0 0 0</pose>
@@ -213,12 +213,32 @@
       <pose>0 0 0.5 0 0 0</pose>
       <geometry><box><size>1.2 0.15 0.01</size></box></geometry>
     </collision>
+    <visual name='post-0.5_v'>
+      <pose>-0.5 0 0.25 0 0 0</pose>
+      <geometry><cylinder><radius>0.0105</radius><length>0.5</length></cylinder></geometry>
+      <material><ambient>0.55 0.55 0.55 1.0</ambient><diffuse>0.55 0.55 0.55 1.0</diffuse></material>
+    </visual>
+    <visual name='base-0.5_v'>
+      <pose>-0.5 0 0.005 0 0 0</pose>
+      <geometry><cylinder><radius>0.06</radius><length>0.01</length></cylinder></geometry>
+      <material><ambient>0.55 0.55 0.55 1.0</ambient><diffuse>0.55 0.55 0.55 1.0</diffuse></material>
+    </visual>
+    <visual name='post0.5_v'>
+      <pose>0.5 0 0.25 0 0 0</pose>
+      <geometry><cylinder><radius>0.0105</radius><length>0.5</length></cylinder></geometry>
+      <material><ambient>0.55 0.55 0.55 1.0</ambient><diffuse>0.55 0.55 0.55 1.0</diffuse></material>
+    </visual>
+    <visual name='base0.5_v'>
+      <pose>0.5 0 0.005 0 0 0</pose>
+      <geometry><cylinder><radius>0.06</radius><length>0.01</length></cylinder></geometry>
+      <material><ambient>0.55 0.55 0.55 1.0</ambient><diffuse>0.55 0.55 0.55 1.0</diffuse></material>
+    </visual>
   </link>
 </model>
 
 <model name='path_9'>
   <static>true</static>
-  <pose>5.5 -4.0 0 0 0 0.0</pose>
+  <pose>5.5 -4.0 0 0 0 -0.3</pose>
   <link name='link'>
     <visual name='plate_v'>
       <pose>0 0 0.5 0 0 0</pose>
@@ -229,6 +249,26 @@
       <pose>0 0 0.5 0 0 0</pose>
       <geometry><box><size>1.2 0.15 0.01</size></box></geometry>
     </collision>
+    <visual name='post-0.5_v'>
+      <pose>-0.5 0 0.25 0 0 0</pose>
+      <geometry><cylinder><radius>0.0105</radius><length>0.5</length></cylinder></geometry>
+      <material><ambient>0.55 0.55 0.55 1.0</ambient><diffuse>0.55 0.55 0.55 1.0</diffuse></material>
+    </visual>
+    <visual name='base-0.5_v'>
+      <pose>-0.5 0 0.005 0 0 0</pose>
+      <geometry><cylinder><radius>0.06</radius><length>0.01</length></cylinder></geometry>
+      <material><ambient>0.55 0.55 0.55 1.0</ambient><diffuse>0.55 0.55 0.55 1.0</diffuse></material>
+    </visual>
+    <visual name='post0.5_v'>
+      <pose>0.5 0 0.25 0 0 0</pose>
+      <geometry><cylinder><radius>0.0105</radius><length>0.5</length></cylinder></geometry>
+      <material><ambient>0.55 0.55 0.55 1.0</ambient><diffuse>0.55 0.55 0.55 1.0</diffuse></material>
+    </visual>
+    <visual name='base0.5_v'>
+      <pose>0.5 0 0.005 0 0 0</pose>
+      <geometry><cylinder><radius>0.06</radius><length>0.01</length></cylinder></geometry>
+      <material><ambient>0.55 0.55 0.55 1.0</ambient><diffuse>0.55 0.55 0.55 1.0</diffuse></material>
+    </visual>
   </link>
 </model>
   </world>
