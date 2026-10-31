@@ -203,5 +203,19 @@
       </plugin>
     </sensor>
   </gazebo>
+  
+  <!-- Gazebo Colors for the AUV -->
+  <gazebo reference="base_link">
+    <material>Gazebo/WhiteGlow</material>
+  </gazebo>
+
+  <gazebo reference="ping360_link">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <gazebo reference="imu_link">
+    <material>Gazebo/Black</material>
+  </gazebo>
+  
 
 </robot>
